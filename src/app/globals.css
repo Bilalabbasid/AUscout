@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-carbon text-white font-body;
+  }
+
+  ::selection {
+    @apply bg-orange-court/30 text-white;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-orange-court;
+  }
+}
+
+@layer components {
+  .text-gradient-orange {
+    @apply bg-gradient-to-r from-orange-court to-orange-400 bg-clip-text text-transparent;
+  }
+
+  .card-dark {
+    @apply bg-carbon-light border border-[#1E2130] rounded-2xl;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:border-orange-court/30 hover:shadow-lg hover:shadow-orange-court/5;
+  }
+
+  .section-padding {
+    @apply px-6 md:px-12 lg:px-24 py-20 md:py-28 lg:py-32;
+  }
+
+  .eyebrow {
+    @apply font-display text-xs md:text-sm uppercase tracking-expanded-lg text-orange-court font-bold;
+  }
+
+  .section-headline {
+    @apply font-display font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase tracking-tight leading-[1.05] text-white;
+  }
+
+  .body-text {
+    @apply font-body text-base md:text-lg leading-relaxed text-ash;
+  }
+
+  .input-field {
+    @apply w-full bg-carbon border border-[#1E2130] rounded-xl px-4 py-3.5 text-white font-body
+           placeholder:text-steel/60 focus:outline-none focus:border-orange-court/60
+           focus:ring-1 focus:ring-orange-court/30 transition-colors duration-200;
+  }
+
+  .input-error {
+    @apply border-red-500/60 focus:border-red-500/60 focus:ring-red-500/30;
+  }
+
+  .checkbox-field {
+    @apply w-5 h-5 rounded-md border border-[#1E2130] bg-carbon text-orange-court
+           focus:ring-orange-court/30 focus:ring-offset-0 cursor-pointer;
+  }
+
+  .select-field {
+    @apply input-field appearance-none cursor-pointer bg-[length:16px_16px]
+           bg-[position:right_16px_center] bg-no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%239CA0AB' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  .bg-reticle {
+    background-image: url('/reticle.svg');
+    background-repeat: repeat;
+    background-size: 32px 32px;
+  }
+
+  /* Court line overlays for that premium sports-tech feel */
+  .court-lines-horizontal {
+    background-image:
+      linear-gradient(to right, transparent 0%, rgba(255, 90, 31, 0.03) 50%, transparent 100%);
+    background-size: 100% 1px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .court-lines-grid {
+    background-image:
+      linear-gradient(rgba(30, 33, 48, 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30, 33, 48, 0.3) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0C0D10;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E2130;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2A2D3A;
+}
+
+/* Typing animation for the search demo */
+@keyframes typing {
+  0%, 100% { width: 0 }
+  50% { width: 100% }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1 }
+  51%, 100% { opacity: 0 }
+}
+
+/* Spark/star micro-animation */
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1) rotate(180deg); }
+}
+
+.animate-sparkle {
+  animation: sparkle 3s ease-in-out infinite;
+}
+
+/* Smooth gradient border glow for featured elements */
+@keyframes border-glow {
+  0%, 100% { border-color: rgba(255, 90, 31, 0.3); box-shadow: 0 0 20px rgba(255, 90, 31, 0.05); }
+  50% { border-color: rgba(255, 90, 31, 0.5); box-shadow: 0 0 30px rgba(255, 90, 31, 0.1); }
+}
+
+.animate-border-glow {
+  animation: border-glow 4s ease-in-out infinite;
+}
