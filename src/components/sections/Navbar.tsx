@@ -30,11 +30,28 @@ export default function Navbar() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 h-16 md:h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 h-16 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="focus-visible:outline-none" aria-label="Scout AU Home">
           <ScoutLogo size="sm" />
         </a>
+
+        {/* Nav links — hidden on mobile */}
+        <nav className="hidden md:flex items-center gap-7" aria-label="Main navigation">
+          {[
+            { label: "Features", href: "#features" },
+            { label: "Who It's For", href: "#who" },
+            { label: "FAQ", href: "#faq" },
+          ].map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="text-steel hover:text-white text-sm font-body transition-colors duration-200 focus-visible:outline-none focus-visible:text-white"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
 
         {/* CTA */}
         <Button variant="primary" size="sm" onClick={scrollToForm}>

@@ -105,13 +105,13 @@ export default function FAQ() {
         aria-hidden="true"
       />
       <div className="relative z-10 section-padding">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-14">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex flex-col items-center text-center mb-12">
             <SectionEyebrow>FAQ</SectionEyebrow>
             <SectionHeadline>Quick answers.</SectionHeadline>
           </div>
 
-          <div className="card-dark p-6 md:p-8">
+          <div className="card-dark p-6 md:p-10">
             {faqs.map((faq, i) => (
               <FaqItem
                 key={faq.q}

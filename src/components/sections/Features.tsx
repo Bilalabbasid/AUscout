@@ -42,16 +42,6 @@ const features = [
     ),
   },
   {
-    title: "Player Ratings",
-    description:
-      "A single, comparable rating out of 100, so you can sort the signal from the noise.",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-      </svg>
-    ),
-  },
-  {
     title: "Natural Language Search",
     description:
       "Ask in plain English and get the answer instantly. StatMuse-style querying for Australian basketball.",
@@ -60,6 +50,16 @@ const features = [
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <circle cx="11" cy="11" r="8" />
         <path d="M21 21l-4.35-4.35" />
+      </svg>
+    ),
+  },
+  {
+    title: "Player Ratings",
+    description:
+      "A single, comparable rating out of 100, so you can sort the signal from the noise.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
       </svg>
     ),
   },
@@ -113,7 +113,7 @@ export default function Features() {
           </SectionHeadline>
 
           {/* Feature cards grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-14">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
             {features.map((f, i) =>
               f.title === "Natural Language Search" ? (
                 /* Featured NL Search card — spans full width */
