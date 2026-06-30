@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 
+// This route reads request headers (auth token), so it must be rendered
+// dynamically — never statically prerendered at build time.
+export const dynamic = "force-dynamic";
+
 export async function GET(request: NextRequest) {
   try {
     const authHeader = request.headers.get("Authorization");

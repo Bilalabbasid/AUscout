@@ -87,6 +87,24 @@ export default function AdminDashboard() {
     setPassword("");
   };
 
+  const roleCount = (role: string) =>
+    entries.filter((e) => e.role?.toLowerCase() === role.toLowerCase()).length;
+
+  const roleBadgeClass = (role: string) => {
+    const base =
+      "inline-block text-xs font-display font-bold uppercase tracking-wide px-2.5 py-1 rounded-lg border";
+    switch (role?.toLowerCase()) {
+      case "player":
+        return `${base} bg-orange-court/10 border-orange-court/30 text-orange-court`;
+      case "coach":
+        return `${base} bg-blue-400/10 border-blue-400/30 text-blue-300`;
+      case "agent":
+        return `${base} bg-purple-400/10 border-purple-400/30 text-purple-300`;
+      default:
+        return `${base} bg-carbon border-[#1E2130] text-ash`;
+    }
+  };
+
   const exportToCSV = () => {
     if (entries.length === 0) return;
 
@@ -187,22 +205,32 @@ export default function AdminDashboard() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
-              className="space-y-6"
+              className="space-y-8"
             >
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                  <h2 className="font-display font-black text-3xl uppercase tracking-tight text-white">
+                  <h2 className="font-display font-black text-3xl md:text-4xl uppercase tracking-tight text-white">
                     Waitlist Entries
                   </h2>
-                  <p className="text-ash text-sm font-body mt-1">
-                    {fetching ? "Refreshing signups..." : `Total registered leads: ${entries.length}`}
+                  <p className="text-ash text-sm font-body mt-1.5 flex items-center gap-2">
+                    {fetching ? (
+                      <>
+                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-orange-court animate-pulse" />
+                        Refreshing signups…
+                      </>
+                    ) : (
+                      <>
+                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-400" />
+                        Live · {entries.length} registered {entries.length === 1 ? "lead" : "leads"}
+                      </>
+                    )}
                   </p>
                 </div>
 
                 {entries.length > 0 && (
                   <button
                     onClick={exportToCSV}
-                    className="inline-flex items-center gap-2 font-display font-bold uppercase tracking-expanded rounded-xl px-5 py-3 text-xs bg-carbon-light border border-[#1E2130] text-white hover:border-orange-court/40 hover:text-orange-court transition-all"
+                    className="inline-flex items-center gap-2 font-display font-bold uppercase tracking-expanded rounded-xl px-5 py-3 text-xs bg-orange-court text-white hover:bg-orange-court-hover shadow-lg shadow-orange-court/20 transition-all hover:-translate-y-0.5"
                   >
                     <svg
                       width="16"
@@ -223,6 +251,30 @@ export default function AdminDashboard() {
                 )}
               </div>
 
+              {/* Summary stat cards */}
+              {entries.length > 0 && (
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                  {[
+                    { label: "Total Leads", value: entries.length },
+                    { label: "Players", value: roleCount("Player") },
+                    { label: "Coaches", value: roleCount("Coach") },
+                    { label: "Agents & Other", value: entries.length - roleCount("Player") - roleCount("Coach") },
+                  ].map((stat) => (
+                    <div
+                      key={stat.label}
+                      className="card-dark p-5 bg-carbon-light/60 hover:border-orange-court/30 transition-colors"
+                    >
+                      <p className="text-steel text-[11px] font-display uppercase tracking-expanded">
+                        {stat.label}
+                      </p>
+                      <p className="text-white font-display font-black text-3xl mt-2 tabular-nums">
+                        {stat.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               {/* Table / Content List */}
               <div className="card-dark overflow-hidden border border-[#1E2130] bg-carbon-light/40">
                 {fetching && entries.length === 0 ? (
@@ -241,19 +293,19 @@ export default function AdminDashboard() {
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                       <thead>
-                        <tr className="border-b border-[#1E2130] text-xs font-display uppercase tracking-expanded text-steel">
-                          <th className="py-4 px-6">Joined Date</th>
-                          <th className="py-4 px-6">Name</th>
-                          <th className="py-4 px-6">Email</th>
-                          <th className="py-4 px-6">Phone</th>
-                          <th className="py-4 px-6">Role</th>
-                          <th className="py-4 px-6">Leagues</th>
-                          <th className="py-4 px-6">Message</th>
+                        <tr className="bg-carbon/60 border-b border-[#1E2130] text-[11px] font-display uppercase tracking-expanded text-steel">
+                          <th className="py-4 px-6 font-bold">Joined Date</th>
+                          <th className="py-4 px-6 font-bold">Name</th>
+                          <th className="py-4 px-6 font-bold">Email</th>
+                          <th className="py-4 px-6 font-bold">Phone</th>
+                          <th className="py-4 px-6 font-bold">Role</th>
+                          <th className="py-4 px-6 font-bold">Leagues</th>
+                          <th className="py-4 px-6 font-bold">Message</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-[#1E2130]/60 text-sm font-body text-ash">
                         {entries.map((entry) => (
-                          <tr key={entry.id} className="hover:bg-carbon-lighter/25 transition-colors">
+                          <tr key={entry.id} className="align-top hover:bg-carbon-lighter/25 transition-colors">
                             <td className="py-4 px-6 whitespace-nowrap text-xs text-steel">
                               {new Date(entry.created_at).toLocaleDateString("en-AU", {
                                 year: "numeric",
@@ -263,24 +315,32 @@ export default function AdminDashboard() {
                                 minute: "2-digit",
                               })}
                             </td>
-                            <td className="py-4 px-6 font-medium text-white whitespace-nowrap">
+                            <td className="py-4 px-6 font-semibold text-white whitespace-nowrap">
                               {entry.full_name}
                             </td>
-                            <td className="py-4 px-6 whitespace-nowrap text-orange-court hover:underline">
-                              <a href={`mailto:${entry.email}`}>{entry.email}</a>
+                            <td className="py-4 px-6 whitespace-nowrap">
+                              <a
+                                href={`mailto:${entry.email}`}
+                                className="text-orange-court hover:text-orange-court-hover hover:underline transition-colors"
+                              >
+                                {entry.email}
+                              </a>
                             </td>
-                            <td className="py-4 px-6 whitespace-nowrap text-xs">
+                            <td className="py-4 px-6 whitespace-nowrap text-xs tabular-nums">
                               {entry.phone}
                             </td>
                             <td className="py-4 px-6 whitespace-nowrap">
-                              <span className="bg-carbon border border-[#1E2130] text-xs font-medium px-2.5 py-1 rounded-lg text-white">
+                              <span className={roleBadgeClass(entry.role)}>
                                 {entry.role}
                               </span>
                             </td>
                             <td className="py-4 px-6">
-                              <div className="flex flex-wrap gap-1">
+                              <div className="flex flex-wrap gap-1.5 max-w-[180px]">
                                 {(entry.leagues || []).map((league) => (
-                                  <span key={league} className="text-[10px] bg-orange-court/10 border border-orange-court/20 text-orange-court px-1.5 py-0.5 rounded font-display uppercase">
+                                  <span
+                                    key={league}
+                                    className="whitespace-nowrap text-[10px] leading-none bg-orange-court/10 border border-orange-court/20 text-orange-court px-2 py-1 rounded font-display font-bold uppercase tracking-wide"
+                                  >
                                     {league}
                                   </span>
                                 ))}
@@ -289,8 +349,12 @@ export default function AdminDashboard() {
                                 )}
                               </div>
                             </td>
-                            <td className="py-4 px-6 max-w-xs truncate text-xs text-ash" title={entry.message}>
-                              {entry.message || <span className="text-steel italic">None</span>}
+                            <td className="py-4 px-6 max-w-xs text-xs text-ash" title={entry.message}>
+                              {entry.message ? (
+                                <span className="line-clamp-2">{entry.message}</span>
+                              ) : (
+                                <span className="text-steel italic">None</span>
+                              )}
                             </td>
                           </tr>
                         ))}
