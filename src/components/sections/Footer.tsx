@@ -4,7 +4,7 @@ import ScoutLogo from "@/components/ui/ScoutLogo";
 
 const footerLinks = [
   { label: "app.scout.au", href: "https://app.scout.au" },
-  { label: "@scout.au", href: "https://instagram.com/scout.au" },
+  { label: "@scoutauofficial", href: "https://instagram.com/scoutauofficial" },
   { label: "X", href: "https://x.com" },
   { label: "LinkedIn", href: "https://linkedin.com" },
 ];
